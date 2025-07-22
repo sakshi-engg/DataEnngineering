@@ -1,0 +1,88 @@
+Microsoft Windows [Version 10.0.26100.4061]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Sakshi Rathi>mongosh
+Current Mongosh Log ID: 683ec3be4d0e8984fe6c4bcf
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.1
+Using MongoDB:          8.0.9
+Using Mongosh:          2.5.1
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-06-03T15:09:21.233+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin   40.00 KiB
+config  60.00 KiB
+local   72.00 KiB
+test     8.00 KiB
+test> use students
+switched to db students
+students> db.students.insertOne({name: 'sakshi', age: 21})
+{
+  acknowledged: true,
+  insertedId: ObjectId('683ec3f84d0e8984fe6c4bd0')
+}
+students> show collections
+students
+students> db.students.find()
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 21
+  }
+]
+students> db.students.insertMany([{name: 'sakshi', age: 21}, {name: 'Jack', age: 25}, {name: 'sakshi', age: 22}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('683ec4894d0e8984fe6c4bd1'),
+    '1': ObjectId('683ec4894d0e8984fe6c4bd2'),
+    '2': ObjectId('683ec4894d0e8984fe6c4bd3')
+  }
+}
+students> db.students.find({age: 21})
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 21
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  }
+]
+students> db.students.updateOne({name: "sakshi"},{$set:{age:20}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+students> db.students.find()
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 20
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  },
+  { _id: ObjectId('683ec4894d0e8984fe6c4bd2'), name: 'Jack', age: 25 },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd3'),
+    name: 'sakshi',
+    age: 22
+  }
+]
+students> {name: 'sakshi', age: 21{name: 'sakshi', age: 21

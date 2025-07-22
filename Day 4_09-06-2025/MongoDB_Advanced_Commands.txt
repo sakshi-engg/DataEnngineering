@@ -1,0 +1,191 @@
+Microsoft Windows [Version 10.0.26100.4061]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Sakshi Rathi>mongosh
+Current Mongosh Log ID: 6846591a776c6542a36c4bcf
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.1
+Using MongoDB:          8.0.9
+Using Mongosh:          2.5.1
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-06-06T15:19:23.057+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> db students
+
+students> db.students.insertOne({name: 'sakshi', age: 21})
+{
+  acknowledged: true,
+  insertedId: ObjectId('684659ff776c6542a36c4bd0')
+}
+students> db.students.find({ age: { $gt: 18 } })
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 20
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  },
+  { _id: ObjectId('683ec4894d0e8984fe6c4bd2'), name: 'Jack', age: 25 },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd3'),
+    name: 'sakshi',
+    age: 22
+  },
+  {
+    _id: ObjectId('684659ff776c6542a36c4bd0'),
+    name: 'sakshi',
+    age: 21
+  }
+]
+students> db.students.find({ age: { $gte: 18, $lte: 21 } })
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 20
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  },
+  {
+    _id: ObjectId('684659ff776c6542a36c4bd0'),
+    name: 'sakshi',
+    age: 21
+  }
+]
+students> db.students.find({ grade: { $in: ["A", "B"] } })
+
+students> db.students.find().sort({ age: 1 })
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 20
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  },
+  {
+    _id: ObjectId('684659ff776c6542a36c4bd0'),
+    name: 'sakshi',
+    age: 21
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd3'),
+    name: 'sakshi',
+    age: 22
+  },
+  { _id: ObjectId('683ec4894d0e8984fe6c4bd2'), name: 'Jack', age: 25 }
+]
+students> db.students.find().sort({ age: -1 })
+[
+  { _id: ObjectId('683ec4894d0e8984fe6c4bd2'), name: 'Jack', age: 25 },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd3'),
+    name: 'sakshi',
+    age: 22
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  },
+  {
+    _id: ObjectId('684659ff776c6542a36c4bd0'),
+    name: 'sakshi',
+    age: 21
+  },
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 20
+  }
+]
+students> db.students.find().limit(2)
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 20
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  }
+]
+students> db.students.find().limit(2)
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 20
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  }
+]
+students> db.students.find({}, { name: 1, age: 1, _id: 0 })
+[
+  { name: 'sakshi', age: 20 },
+  { name: 'sakshi', age: 21 },
+  { name: 'Jack', age: 25 },
+  { name: 'sakshi', age: 22 },
+  { name: 'sakshi', age: 21 }
+]
+students> db.students.aggregate([
+... { $group: { _id: "$grade", count: { $sum: 1 } } }
+... ])
+[ { _id: null, count: 5 } ]
+students> db.students.createIndex({ name: 1 })
+name_1
+students> db.students.insertOne({
+... name: "Sita",
+... age: 22,
+... address: { city: "Delhi", zip: "110001" }
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId('68465f73776c6542a36c4bd1')
+}
+students> db.students.insertOne({
+... name: "Ram",
+... subjects: ["Math", "English", "Science"]
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId('68465ff1776c6542a36c4bd2')
+}
+students> db.students.find({ subjects: "Math" })
+[
+  {
+    _id: ObjectId('68465ff1776c6542a36c4bd2'),
+    name: 'Ram',
+    subjects: [ 'Math', 'English', 'Science' ]
+  }
+]
+students> db.students.countDocuments({})
+7
+students> db.students.updateMany({}, { $rename: { "grade": "performance" } })
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 7,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+students>

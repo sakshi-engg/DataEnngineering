@@ -1,0 +1,385 @@
+Microsoft Windows [Version 10.0.26100.4061]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Mohit Rathi>mongosh
+Current Mongosh Log ID: 6846acea94f52f8af36c4bcf
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.1
+Using MongoDB:          8.0.9
+Using Mongosh:          2.5.1
+mongosh 2.5.2 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-06-06T15:19:23.057+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> onlinestoremanagement
+ReferenceError: onlinestoremanagement is not defined
+test> use onlinestore
+switched to db onlinestore
+onlinestore> db.createCollection("orders")
+{ ok: 1 }
+onlinestore> db.orders.insertMany([
+...   {
+...     "order_id": "ORD1002",
+...     "order_date": "2024-06-02",
+...     "customer": {
+...       "name": "Raj Mehta",
+...       "email": "raj@example.com",
+...       "phone": "9876500001"
+...     },
+...     "shipping_address": {
+...       "street": "456 Hill View",
+...       "city": "Delhi",
+...       "state": "DL",
+...       "pincode": "110001"
+...     },
+...     "items": [
+...       { "product": "Laptop Bag", "price": 1299, "quantity": 1 },
+...       { "product": "Notebook", "price": 99, "quantity": 3 }
+...     ],
+...     "total_amount": 1596,
+...     "payment_status": "Paid",
+...     "delivery_status": "Shipped"
+...   },
+...   {
+...     "order_id": "ORD1003",
+...     "order_date": "2024-06-03",
+...     "customer": {
+...       "name": "Anjali Verma",
+...       "email": "anjali@example.com",
+...       "phone": "9876500002"
+...     },
+...     "shipping_address": {
+...       "street": "789 Rose Villa",
+...       "city": "Bangalore",
+...       "state": "KA",
+...       "pincode": "560001"
+...     },
+...     "items": [
+...       { "product": "Monitor", "price": 4999, "quantity": 1 }
+...     ],
+...     "total_amount": 4999,
+...     "payment_status": "Unpaid",
+...     "delivery_status": "Pending"
+...   },
+...   {
+...     "order_id": "ORD1004",
+...     "order_date": "2024-06-04",
+...     "customer": {
+...       "name": "Farhan Ali",
+...       "email": "farhan@example.com",
+...       "phone": "9876500003"
+...     },
+...     "shipping_address": {
+...       "street": "22 Sky Tower",
+...       "city": "Hyderabad",
+...       "state": "TS",
+...       "pincode": "500001"
+...     },
+...     "items": [
+...       { "product": "Power Bank", "price": 1299, "quantity": 2 }
+...     ],
+...     "total_amount": 2598,
+...     "payment_status": "Paid",
+...     "delivery_status": "Out for Delivery"
+...   },
+...   {
+...     "order_id": "ORD1005",
+...     "order_date": "2024-06-05",
+...     "customer": {
+...       "name": "Nina Das",
+...       "email": "nina@example.com",
+...       "phone": "9876500004"
+...     },
+...     "shipping_address": {
+...       "street": "500 River Side",
+...       "city": "Chennai",
+...       "state": "TN",
+...       "pincode": "600001"
+...     },
+...     "items": [
+...       { "product": "USB Hub", "price": 799, "quantity": 2 },
+...       { "product": "HDMI Cable", "price": 499, "quantity": 1 }
+...     ],
+...     "total_amount": 2097,
+...     "payment_status": "Paid",
+...     "delivery_status": "Delivered"
+...   },
+...   {
+...     "order_id": "ORD1006",
+...     "order_date": "2024-06-06",
+...     "customer": {
+...       "name": "Arjun Sen",
+...       "email": "arjun@example.com",
+...       "phone": "9876500005"
+...     },
+...     "shipping_address": {
+...       "street": "88 Market Road",
+...       "city": "Kolkata",
+...       "state": "WB",
+...       "pincode": "700001"
+...     },
+...     "items": [
+...       { "product": "Webcam", "price": 1599, "quantity": 1 },
+...       { "product": "Tripod", "price": 999, "quantity": 1 }
+...     ],
+...     "total_amount": 2598,
+...     "payment_status": "Unpaid",
+...     "delivery_status": "Pending"
+...   }
+... ])
+...
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6846adaf94f52f8af36c4bd0'),
+    '1': ObjectId('6846adaf94f52f8af36c4bd1'),
+    '2': ObjectId('6846adaf94f52f8af36c4bd2'),
+    '3': ObjectId('6846adaf94f52f8af36c4bd3'),
+    '4': ObjectId('6846adaf94f52f8af36c4bd4')
+  }
+}
+onlinestore> db.orders.find({
+...   payment_status: "Paid",
+...   delivery_status: { $ne: "Delivered" }
+... })
+...
+[
+  {
+    _id: ObjectId('6846adaf94f52f8af36c4bd0'),
+    order_id: 'ORD1002',
+    order_date: '2024-06-02',
+    customer: {
+      name: 'Raj Mehta',
+      email: 'raj@example.com',
+      phone: '9876500001'
+    },
+    shipping_address: {
+      street: '456 Hill View',
+      city: 'Delhi',
+      state: 'DL',
+      pincode: '110001'
+    },
+    items: [
+      { product: 'Laptop Bag', price: 1299, quantity: 1 },
+      { product: 'Notebook', price: 99, quantity: 3 }
+    ],
+    total_amount: 1596,
+    payment_status: 'Paid',
+    delivery_status: 'Shipped'
+  },
+  {
+    _id: ObjectId('6846adaf94f52f8af36c4bd2'),
+    order_id: 'ORD1004',
+    order_date: '2024-06-04',
+    customer: {
+      name: 'Farhan Ali',
+      email: 'farhan@example.com',
+      phone: '9876500003'
+    },
+    shipping_address: {
+      street: '22 Sky Tower',
+      city: 'Hyderabad',
+      state: 'TS',
+      pincode: '500001'
+    },
+    items: [ { product: 'Power Bank', price: 1299, quantity: 2 } ],
+    total_amount: 2598,
+    payment_status: 'Paid',
+    delivery_status: 'Out for Delivery'
+  }
+]
+onlinestore> db.orders.find({
+...   "items.price": { $gt: 1000 }
+... })
+...
+[
+  {
+    _id: ObjectId('6846adaf94f52f8af36c4bd0'),
+    order_id: 'ORD1002',
+    order_date: '2024-06-02',
+    customer: {
+      name: 'Raj Mehta',
+      email: 'raj@example.com',
+      phone: '9876500001'
+    },
+    shipping_address: {
+      street: '456 Hill View',
+      city: 'Delhi',
+      state: 'DL',
+      pincode: '110001'
+    },
+    items: [
+      { product: 'Laptop Bag', price: 1299, quantity: 1 },
+      { product: 'Notebook', price: 99, quantity: 3 }
+    ],
+    total_amount: 1596,
+    payment_status: 'Paid',
+    delivery_status: 'Shipped'
+  },
+  {
+    _id: ObjectId('6846adaf94f52f8af36c4bd1'),
+    order_id: 'ORD1003',
+    order_date: '2024-06-03',
+    customer: {
+      name: 'Anjali Verma',
+      email: 'anjali@example.com',
+      phone: '9876500002'
+    },
+    shipping_address: {
+      street: '789 Rose Villa',
+      city: 'Bangalore',
+      state: 'KA',
+      pincode: '560001'
+    },
+    items: [ { product: 'Monitor', price: 4999, quantity: 1 } ],
+    total_amount: 4999,
+    payment_status: 'Unpaid',
+    delivery_status: 'Pending'
+  },
+  {
+    _id: ObjectId('6846adaf94f52f8af36c4bd2'),
+    order_id: 'ORD1004',
+    order_date: '2024-06-04',
+    customer: {
+      name: 'Farhan Ali',
+      email: 'farhan@example.com',
+      phone: '9876500003'
+    },
+    shipping_address: {
+      street: '22 Sky Tower',
+      city: 'Hyderabad',
+      state: 'TS',
+      pincode: '500001'
+    },
+    items: [ { product: 'Power Bank', price: 1299, quantity: 2 } ],
+    total_amount: 2598,
+    payment_status: 'Paid',
+    delivery_status: 'Out for Delivery'
+  },
+  {
+    _id: ObjectId('6846adaf94f52f8af36c4bd4'),
+    order_id: 'ORD1006',
+    order_date: '2024-06-06',
+    customer: {
+      name: 'Arjun Sen',
+      email: 'arjun@example.com',
+      phone: '9876500005'
+    },
+    shipping_address: {
+      street: '88 Market Road',
+      city: 'Kolkata',
+      state: 'WB',
+      pincode: '700001'
+    },
+    items: [
+      { product: 'Webcam', price: 1599, quantity: 1 },
+      { product: 'Tripod', price: 999, quantity: 1 }
+    ],
+    total_amount: 2598,
+    payment_status: 'Unpaid',
+    delivery_status: 'Pending'
+  }
+]
+onlinestore> db.orders.find(
+...   { "shipping_address.city": { $in: ["Mumbai", "Delhi"] } },
+...   { order_id: 1, "shipping_address.city": 1, order_date: 1, _id: 0 }
+... ).sort({ order_date: -1 })
+...
+[
+  {
+    order_id: 'ORD1002',
+    order_date: '2024-06-02',
+    shipping_address: { city: 'Delhi' }
+  }
+]
+onlinestore> db.orders.aggregate([
+...   { $group: { _id: "$payment_status", total_orders: { $sum: 1 } } }
+... ])
+...
+[
+  { _id: 'Paid', total_orders: 3 },
+  { _id: 'Unpaid', total_orders: 2 }
+]
+onlinestore> db.orders.aggregate([
+...   { $match: { delivery_status: "Delivered" } },
+...   { $group: { _id: null, total_revenue: { $sum: "$total_amount" } } }
+... ])
+...
+[ { _id: null, total_revenue: 2097 } ]
+onlinestore> db.orders.aggregate([
+...   { $match: { delivery_status: "Delivered" } },
+...   { $group: { _id: null, total_revenue: { $sum: "$total_amount" } } }
+... ])
+...
+[ { _id: null, total_revenue: 2097 } ]
+onlinestore> db.orders.updateMany(
+...   { $expr: { $gt: [ { $size: "$items" }, 3 ] } },
+...   { $set: { priority: "High" } }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+onlinestore> db.orders.aggregate([
+...   { $unwind: "$items" },
+...   { $group: {
+...       _id: "$items.product",
+...       total_quantity: { $sum: "$items.quantity" }
+...   }}
+... ])
+...
+[
+  { _id: 'Webcam', total_quantity: 1 },
+  { _id: 'USB Hub', total_quantity: 2 },
+  { _id: 'Laptop Bag', total_quantity: 1 },
+  { _id: 'Tripod', total_quantity: 1 },
+  { _id: 'HDMI Cable', total_quantity: 1 },
+  { _id: 'Monitor', total_quantity: 1 },
+  { _id: 'Notebook', total_quantity: 3 },
+  { _id: 'Power Bank', total_quantity: 2 }
+]
+onlinestore> db.orders.updateOne(
+...   { order_id: "ORD1001" },
+...   { $push: {
+...     items: { product: "USB Cable", price: 299, quantity: 1 }
+...   }}
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+onlinestore> db.orders.updateMany(
+...   {},
+...   { $rename: { "customer.phone": "customer.mobile_number" } }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+onlinestore> db.orders.createIndex({ "customer.email": 1 })
+customer.email_1
+onlinestore> mongoexport --db your_db_name --collection orders --out orders_export.json
+Uncaught:
+SyntaxError: Missing semicolon. (1:14)
+
+> 1 | mongoexport --db your_db_name --collection orders --out orders_export.json
+    |               ^
+  2 |
+
+onlinestore>

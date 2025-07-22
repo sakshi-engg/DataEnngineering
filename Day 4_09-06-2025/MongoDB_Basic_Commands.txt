@@ -1,0 +1,149 @@
+Microsoft Windows [Version 10.0.26100.4061]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Sakshi Rathi>mongosh
+Current Mongosh Log ID: 684661b9e8818a79ae6c4bcf
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.1
+Using MongoDB:          8.0.9
+Using Mongosh:          2.5.1
+mongosh 2.5.2 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-06-06T15:19:23.057+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use school
+switched to db school
+school> db.students.insertOne({ name: "John", age: 18, grade: "A" })
+{
+  acknowledged: true,
+  insertedId: ObjectId('684661f7e8818a79ae6c4bd0')
+}
+school> show collections
+students
+school> db.students.insertMany([
+... { name: "Ravi", age: 19, grade: "B" },
+...
+... { name: "Priya", age: 20, grade: "A" },
+... { name: "Amit", age: 21, grade: "C" }
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68466223e8818a79ae6c4bd1'),
+    '1': ObjectId('68466223e8818a79ae6c4bd2'),
+    '2': ObjectId('68466223e8818a79ae6c4bd3')
+  }
+}
+school> db.students.find()
+[
+  {
+    _id: ObjectId('684661f7e8818a79ae6c4bd0'),
+    name: 'John',
+    age: 18,
+    grade: 'A'
+  },
+  {
+    _id: ObjectId('68466223e8818a79ae6c4bd1'),
+    name: 'Ravi',
+    age: 19,
+    grade: 'B'
+  },
+  {
+    _id: ObjectId('68466223e8818a79ae6c4bd2'),
+    name: 'Priya',
+    age: 20,
+    grade: 'A'
+  },
+  {
+    _id: ObjectId('68466223e8818a79ae6c4bd3'),
+    name: 'Amit',
+    age: 21,
+    grade: 'C'
+  }
+]
+school> db.students.find().pretty()
+[
+  {
+    _id: ObjectId('684661f7e8818a79ae6c4bd0'),
+    name: 'John',
+    age: 18,
+    grade: 'A'
+  },
+  {
+    _id: ObjectId('68466223e8818a79ae6c4bd1'),
+    name: 'Ravi',
+    age: 19,
+    grade: 'B'
+  },
+  {
+    _id: ObjectId('68466223e8818a79ae6c4bd2'),
+    name: 'Priya',
+    age: 20,
+    grade: 'A'
+  },
+  {
+    _id: ObjectId('68466223e8818a79ae6c4bd3'),
+    name: 'Amit',
+    age: 21,
+    grade: 'C'
+  }
+]
+school> db.students.find({ grade: "A" })
+[
+  {
+    _id: ObjectId('684661f7e8818a79ae6c4bd0'),
+    name: 'John',
+    age: 18,
+    grade: 'A'
+  },
+  {
+    _id: ObjectId('68466223e8818a79ae6c4bd2'),
+    name: 'Priya',
+    age: 20,
+    grade: 'A'
+  }
+]
+school> db.students.updateOne(
+... { name: "Ravi" },
+... { $set: { grade: "A+" } }
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+school> db.students.updateMany(
+... { grade: "C" },
+... { $set: { grade: "B" } }
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+school> db.students.deleteOne({name: "Amit"})
+{ acknowledged: true, deletedCount: 1 }
+school> db.students.deleteMany({ grade: "B" })
+{ acknowledged: true, deletedCount: 0 }
+school> db
+school
+school> show dbs
+admin      40.00 KiB
+config     96.00 KiB
+local      72.00 KiB
+school     72.00 KiB
+students  108.00 KiB
+test        8.00 KiB
+school> show collections
+students
+school> exit
+
+C:\Users\Mohit Rathi>

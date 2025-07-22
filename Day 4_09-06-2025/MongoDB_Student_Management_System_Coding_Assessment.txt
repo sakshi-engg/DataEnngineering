@@ -1,0 +1,297 @@
+
+C:\Users\Sakshi Rathi>mongosh
+Current Mongosh Log ID: 684673b9295b637b8f6c4bcf
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.1
+Using MongoDB:          8.0.9
+Using Mongosh:          2.5.1
+mongosh 2.5.2 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-06-06T15:19:23.057+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use students
+switched to db students
+
+Q1. Insert 5 student records
+
+students> db.students.insertMany([
+...   {
+...     name: "Amit Kumar",
+...     age: 17,
+...     gender: "Male",
+...     grade: "11th",
+...     subjects: ["Math", "Physics", "English"],
+...     marks: { Math: 82, Physics: 91, English: 75 },
+...     address: { city: "Delhi", pincode: "110001" }
+...   },
+...   {
+...     name: "Priya Sharma",
+...     age: 16,
+...     gender: "Female",
+...     grade: "10th",
+...     subjects: ["Biology", "English", "Chemistry"],
+...     marks: { Biology: 78, English: 69, Chemistry: 88 },
+...     address: { city: "Mumbai", pincode: "400001" }
+...   },
+...   {
+...     name: "Rahul Verma",
+...     age: 18,
+...     gender: "Male",
+...     grade: "12th",
+...     subjects: ["Math", "Computer", "English"],
+...     marks: { Math: 35, Computer: 95, English: 92 },
+...     address: { city: "Delhi", pincode: "110002" }
+...   },
+...   {
+...     name: "Sneha Reddy",
+...     age: 17,
+...     gender: "Female",
+...     grade: "11th",
+...     subjects: ["Math", "Physics", "Chemistry"],
+...     marks: { Math: 88, Physics: 37, Chemistry: 41 },
+...     address: { city: "Hyderabad", pincode: "500001" }
+...   },
+...   {
+...     name: "Aditya Mehta",
+...     age: 15,
+...     gender: "Male",
+...     grade: "9th",
+...     subjects: ["English", "History", "Civics"],
+...     marks: { English: 55, History: 67, Civics: 72 },
+...     address: { city: "Ahmedabad", pincode: "380001" }
+...   }
+... ])
+...
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('684673c3295b637b8f6c4bd0'),
+    '1': ObjectId('684673c3295b637b8f6c4bd1'),
+    '2': ObjectId('684673c3295b637b8f6c4bd2'),
+    '3': ObjectId('684673c3295b637b8f6c4bd3'),
+    '4': ObjectId('684673c3295b637b8f6c4bd4')
+  }
+}
+
+
+Q2. Find all students who take “Math” as a subject
+students> db.students.find(
+...   { subjects: "Math" },
+...   { name: 1, grade: 1, subjects: 1, _id: 0 }
+... )
+...
+[
+  { name: 'Ram', subjects: [ 'Math', 'English', 'Science' ] },
+  {
+    name: 'Amit Kumar',
+    grade: '11th',
+    subjects: [ 'Math', 'Physics', 'English' ]
+  },
+  {
+    name: 'Rahul Verma',
+    grade: '12th',
+    subjects: [ 'Math', 'Computer', 'English' ]
+  },
+  {
+    name: 'Sneha Reddy',
+    grade: '11th',
+    subjects: [ 'Math', 'Physics', 'Chemistry' ]
+  }
+]
+
+Q3. Find students from city "Delhi" scoring more than 85 in Physics
+students> db.students.find(
+...   {
+...     "address.city": "Delhi",
+...     "marks.Physics": { $gt: 85 }
+...   },
+...   { name: 1, marks: 1, "address.city": 1, _id: 0 }
+... )
+...
+[
+  {
+    name: 'Amit Kumar',
+    marks: { Math: 82, Physics: 91, English: 75 },
+    address: { city: 'Delhi' }
+  }
+]
+
+Q4. Sort all students by English marks (descending) and show top 3
+students> db.students.find(
+...   { "marks.English": { $exists: true } },
+...   { name: 1, subjects: 1, marks: 1, _id: 0 }
+... ).sort({ "marks.English": -1 }).limit(3)
+...
+[
+  {
+    name: 'Rahul Verma',
+    subjects: [ 'Math', 'Computer', 'English' ],
+    marks: { Math: 35, Computer: 95, English: 92 }
+  },
+  {
+    name: 'Amit Kumar',
+    subjects: [ 'Math', 'Physics', 'English' ],
+    marks: { Math: 82, Physics: 91, English: 75 }
+  },
+  {
+    name: 'Priya Sharma',
+    subjects: [ 'Biology', 'English', 'Chemistry' ],
+    marks: { Biology: 78, English: 69, Chemistry: 88 }
+  }
+]
+
+Q5. Group students by city and count how many are from each
+students> db.students.aggregate([
+...   {
+...     $group: {
+...       _id: "$address.city",
+...       count: { $sum: 1 }
+...     }
+...   }
+... ])
+...
+[
+  { _id: 'Ahmedabad', count: 1 },
+  { _id: 'Mumbai', count: 1 },
+  { _id: null, count: 6 },
+  { _id: 'Delhi', count: 3 },
+  { _id: 'Hyderabad', count: 1 }
+]
+
+Q6. Update all students who scored less than 40 in any subject
+students> db.students.updateMany(
+...   {
+...     $or: [
+...       { "marks.Math": { $lt: 40 } },
+...       { "marks.Physics": { $lt: 40 } },
+...       { "marks.English": { $lt: 40 } },
+...       { "marks.Chemistry": { $lt: 40 } },
+...       { "marks.Biology": { $lt: 40 } },
+...       { "marks.Computer": { $lt: 40 } },
+...       { "marks.History": { $lt: 40 } },
+...       { "marks.Civics": { $lt: 40 } }
+...     ]
+...   },
+...   { $set: { status: "Needs Improvement" } }
+... )
+...
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+students> db.students.aggregate([
+...   { $match: { "marks.English": { $exists: true } } },
+...   { $group: { _id: null, avgEnglish: { $avg: "$marks.English" } } }
+... ])
+...
+[ { _id: null, avgEnglish: 72.75 } ]
+
+students> db.students.aggregate([
+...   { $match: { "marks.Math": { $exists: true } } },
+...   { $group: { _id: null, avgMath: { $avg: "$marks.Math" } } }
+... ])
+[ { _id: null, avgMath: 68.33333333333333 } ]
+
+students> db.students.aggregate([
+...   { $match: { "marks.Physics": { $exists: true } } },
+...   { $group: { _id: null, avgPhysics: { $avg: "$marks.Physics" } } }
+... ])
+...
+[ { _id: null, avgPhysics: 64 } ]
+
+- Display all records in students database
+students> db.students.find().pretty()
+[
+  {
+    _id: ObjectId('683ec3f84d0e8984fe6c4bd0'),
+    name: 'sakshi',
+    age: 20
+  },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd1'),
+    name: 'sakshi',
+    age: 21
+  },
+  { _id: ObjectId('683ec4894d0e8984fe6c4bd2'), name: 'Jack', age: 25 },
+  {
+    _id: ObjectId('683ec4894d0e8984fe6c4bd3'),
+    name: 'sakshi',
+    age: 22
+  },
+  {
+    _id: ObjectId('684659ff776c6542a36c4bd0'),
+    name: 'sakshi',
+    age: 21
+  },
+  {
+    _id: ObjectId('68465f73776c6542a36c4bd1'),
+    name: 'Sita',
+    age: 22,
+    address: { city: 'Delhi', zip: '110001' }
+  },
+  {
+    _id: ObjectId('68465ff1776c6542a36c4bd2'),
+    name: 'Ram',
+    subjects: [ 'Math', 'English', 'Science' ]
+  },
+  {
+    _id: ObjectId('684673c3295b637b8f6c4bd0'),
+    name: 'Amit Kumar',
+    age: 17,
+    gender: 'Male',
+    grade: '11th',
+    subjects: [ 'Math', 'Physics', 'English' ],
+    marks: { Math: 82, Physics: 91, English: 75 },
+    address: { city: 'Delhi', pincode: '110001' }
+  },
+  {
+    _id: ObjectId('684673c3295b637b8f6c4bd1'),
+    name: 'Priya Sharma',
+    age: 16,
+    gender: 'Female',
+    grade: '10th',
+    subjects: [ 'Biology', 'English', 'Chemistry' ],
+    marks: { Biology: 78, English: 69, Chemistry: 88 },
+    address: { city: 'Mumbai', pincode: '400001' }
+  },
+  {
+    _id: ObjectId('684673c3295b637b8f6c4bd2'),
+    name: 'Rahul Verma',
+    age: 18,
+    gender: 'Male',
+    grade: '12th',
+    subjects: [ 'Math', 'Computer', 'English' ],
+    marks: { Math: 35, Computer: 95, English: 92 },
+    address: { city: 'Delhi', pincode: '110002' },
+    status: 'Needs Improvement'
+  },
+  {
+    _id: ObjectId('684673c3295b637b8f6c4bd3'),
+    name: 'Sneha Reddy',
+    age: 17,
+    gender: 'Female',
+    grade: '11th',
+    subjects: [ 'Math', 'Physics', 'Chemistry' ],
+    marks: { Math: 88, Physics: 37, Chemistry: 41 },
+    address: { city: 'Hyderabad', pincode: '500001' },
+    status: 'Needs Improvement'
+  },
+  {
+    _id: ObjectId('684673c3295b637b8f6c4bd4'),
+    name: 'Aditya Mehta',
+    age: 15,
+    gender: 'Male',
+    grade: '9th',
+    subjects: [ 'English', 'History', 'Civics' ],
+    marks: { English: 55, History: 67, Civics: 72 },
+    address: { city: 'Ahmedabad', pincode: '380001' }
+  }
+]
+students>

@@ -1,0 +1,32 @@
+we’ve got in the dataset?
+How many seasons we’ve got in the dataset?
+Which Team had won by maximum runs?
+Which Team had won by maximum wicket?
+Which Team had won by closest Margin (minimum runs)?
+Which Team had won by minimum wicket?
+Which Season had most number of matches?
+Which IPL Team is more successful?
+
+Insights Fetched:
+IPL Dataset
+1) How many seasons we’ve got in the dataset?
+Sort the data by Season in the excel sheet -> 2008 - 2017 
+Answer - 10 Seasons in the dataset
+
+2)Which Team had won by maximum runs?
+Conditional Formatting - Top 10 Rule (Applied Top 1 Red Highlight Rule)
+Answer - Mumbai Indians won by 146 Runs Against Delhi Daredevils (Cell 622)
+
+3)Which Team had won by maximum wicket?
+Conditional Formatting - Top 10 Rule (Applied Top 1 Green Highlight Rule)
+Answer - Deccan Chargers, Delhi Daredevils, Royal Challengers Bangalore X2 times, Rajasthan Royals(Cell 241), Mumbai Indians(cell 319), Chennai Super Kings(Cell 333), Sunrisers Hyderabad(Cell 533), Kolkata Knight Riders(Cell 581), Kings XI Punjab(Cell 613) Won by 10 wickets
+Conclude - All the times have won at least one time by 10 wickets but RCB is the only team that has won 2 times by maximum wickets
+
+4)Which Team had won by closest Margin (minimum runs)?
+Conditional Formatting - Top 10 Rule (Applied Bottom 1 Yellow Highlight Rule)
+Delhi Daredevils, RCB, Kolkata, Rajasthan, Chennai, Deccan, Kings XI Punjab, Mumbai, Hyderabad
+All the teams have won by 0 runs at least once 
+
+5) Which Team had won by minimum wicket?
+Conditional Formatting - Top 10 Rule (Applied Bottom 1 Blue Highlight Rule)
+All the teams have atleast once won by 0 wickets
